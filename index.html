@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Busted & Cornfused — Complete Game to 15</title>
+<title>Busted & Cornfused — Baseball-Style Cornhole</title>
 <style>
   :root{
     --viz-panel:#ffffff;
@@ -44,7 +44,7 @@
     <header class="header">
       <div>
         <div class="brand">BUSTED &amp; CORNFUSED</div>
-        <div class="sub">4-ON-4 TEAM CORNHOLE • COMPLETE GAME TO 15</div>
+        <div class="sub">BASEBALL-STYLE CORNHOLE • FOUR-INNING DEMONSTRATION</div>
       </div>
       <div id="statusChip" class="status-chip">PREGAME</div>
     </header>
@@ -111,7 +111,7 @@
         <div id="lowerTag" class="lower-tag">STATUS</div>
         <div>
           <strong id="thrower">READY TO BEGIN</strong>
-          <span id="detail">Press Play or Next Player</span>
+          <span id="detail">Press Play Ball or Next Batter</span>
         </div>
       </div>
 
@@ -126,10 +126,10 @@
     <div class="progress"><div id="progressBar"></div></div>
 
     <div class="controls">
-      <button id="play" type="button">▶ Play</button>
-      <button id="pause" type="button">Ⅱ Pause</button>
-      <button id="next" type="button">≫ Next Player</button>
-      <button id="reset" type="button">↺ Reset</button>
+      <button id="play" type="button">⚾ Play Ball</button>
+      <button id="pause" type="button">⏸ Time</button>
+      <button id="next" type="button">≫ Next Batter</button>
+      <button id="reset" type="button">↺ New Game</button>
     </div>
 
     <div class="game-log">
@@ -144,7 +144,7 @@
     {top:{rawG:7,rawA:4,winner:'G',pts:3},bottom:{rawG:4,rawA:6,winner:'A',pts:2}},
     {top:{rawG:3,rawA:7,winner:'A',pts:4},bottom:{rawG:6,rawA:5,winner:'G',pts:1}},
     {top:{rawG:8,rawA:3,winner:'G',pts:5},bottom:{rawG:4,rawA:7,winner:'A',pts:3}},
-    {top:{rawG:4,rawA:8,winner:'A',pts:4},bottom:{rawG:9,rawA:3,winner:'G',pts:6}}
+    {top:{rawG:2,rawA:9,winner:'A',pts:7},bottom:{rawG:10,rawA:2,winner:'G',pts:8}}
   ];
 
   const players={top:['A1','G1','A2','G2'],bottom:['A3','G3','A4','G4']};
@@ -189,7 +189,7 @@
     const id=players[half][playerIndex];
     clearActive();
     document.getElementById(id).classList.add('active');
-    document.getElementById('lowerTag').textContent='NOW THROWING';
+    document.getElementById('lowerTag').textContent='NOW BATTING';
     document.getElementById('thrower').textContent=`${id[0]==='A'?'APOLLO':'GLENDALE'} • PLAYER ${id}`;
     document.getElementById('detail').textContent=`Throwing from behind Board ${half==='top'?'A':'B'} toward Board ${half==='top'?'B':'A'}`;
     toss(id,0);
@@ -254,7 +254,10 @@
     setGold(gScore>aScore?'G':'A');
     document.getElementById('statusChip').textContent='FINAL';
     document.getElementById('gameState').textContent=`Final: Glendale ${gScore}, Apollo ${aScore}`;
-    document.getElementById('champion').classList.add('show');
+    const champion=document.getElementById('champion');
+    champion.querySelector('strong').textContent='GLENDALE WINS ON A WALK-OFF!';
+    champion.querySelector('span').textContent=`Final score: Glendale ${gScore} – Apollo ${aScore}`;
+    champion.classList.add('show');
     document.getElementById('play').disabled=true;
     completedSteps=totalSteps;
     updateProgress();
@@ -303,11 +306,14 @@
     setHalfDisplay();
     document.getElementById('statusChip').textContent='PREGAME';
     document.getElementById('thrower').textContent='READY TO BEGIN';
-    document.getElementById('detail').textContent='Press Play or Next Player';
+    document.getElementById('detail').textContent='Press Play Ball or Next Batter';
     document.getElementById('lowerTag').textContent='STATUS';
     document.getElementById('gameState').textContent='Not started';
     document.getElementById('logRows').innerHTML='<div class="empty-log">Scoring results will appear here.</div>';
-    document.getElementById('champion').classList.remove('show');
+    const champion=document.getElementById('champion');
+    champion.classList.remove('show');
+    champion.querySelector('strong').textContent='GLENDALE WINS ON A WALK-OFF!';
+    champion.querySelector('span').textContent='Final score: Glendale 17 – Apollo 16';
     document.getElementById('play').disabled=false;
   }
 
